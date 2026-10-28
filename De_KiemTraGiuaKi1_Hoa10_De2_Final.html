@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Điệp Vụ: Kiểm Tra Giữa Kì I - Hóa 10 (Đề 2)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e3a8a; 
+            --primary-light: #3b82f6;
+            --secondary: #dc2626; 
+            --bg: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --success: #10b981;
+            --danger: #ef4444;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        * { box-sizing: border-box; }
+        body { font-family: 'Roboto', sans-serif; background-color: var(--bg); color: var(--text-main); margin: 0; padding: 15px 10px; display: flex; justify-content: center; line-height: 1.6; }
+        .container { max-width: 850px; width: 100%; }
+
+        .card { background: var(--card-bg); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow); border-top: 5px solid var(--primary); }
+        .header-card { text-align: center; background: linear-gradient(135deg, #0f172a, #1e3a8a); color: white; border-top: none; }
+        .header-card h1 { margin: 0 0 5px 0; font-size: 1.8rem; text-transform: uppercase; color: #f87171; }
+        .header-card h2 { margin: 0 0 15px 0; font-size: 1.1rem; font-weight: 500; opacity: 0.9; }
+        
+        .student-info { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; }
+        .student-info input { width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 15px; font-weight: bold; text-align: center;}
+
+        h3 { color: var(--primary); margin-top: 0; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; text-transform: uppercase; font-size: 1.2rem;}
+        
+        input[type="text"], select { width: 100%; padding: 10px; border: 1.5px solid #d1d5db; border-radius: 6px; font-size: 15px; transition: 0.3s; font-family: 'Roboto', sans-serif;}
+        input[type="text"]:focus, select:focus { border-color: var(--primary); outline: none; }
+
+        .question { margin-bottom: 20px; background: #f9fafb; padding: 15px; border-radius: 8px; border: 1px solid #e5e7eb; }
+        .question-text { font-weight: bold; margin-top: 0; margin-bottom: 12px; font-size: 1.05rem; }
+
+        .options label { display: flex; align-items: center; margin-bottom: 8px; cursor: pointer; padding: 10px; border-radius: 6px; background: #fff; border: 1px solid #e5e7eb; transition: 0.2s; }
+        .options label:hover { background: #f3f4f6; }
+        .options input[type="radio"] { margin-right: 10px; transform: scale(1.2); }
+        
+        .tf-grid { display: grid; grid-template-columns: 3fr 1fr; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px dashed #e5e7eb; }
+        .tf-opts { display: flex; gap: 10px; justify-content: flex-end; }
+        .tf-opts label { background: #fff; padding: 6px 12px; border: 1px solid #ccc; border-radius: 4px; font-weight: bold; font-size: 0.9rem; cursor: pointer;}
+        
+        .btn-submit { width: 100%; border: none; padding: 16px; font-size: 16px; border-radius: 30px; cursor: pointer; font-weight: bold; text-transform: uppercase; color: white; background: linear-gradient(135deg, var(--secondary), #991b1b); box-shadow: 0 4px 6px rgba(220, 38, 38, 0.3); margin-top: 20px;}
+        .btn-checkpoint { width: 100%; border: none; padding: 16px; font-size: 16px; border-radius: 12px; cursor: pointer; font-weight: bold; text-transform: uppercase; color: white; background: linear-gradient(135deg, #059669, #047857); box-shadow: 0 4px 6px rgba(5, 150, 105, 0.3); margin-top: 20px; transition: 0.3s;}
+        
+        .section-locked { display: none; opacity: 0; transition: opacity 1s ease-in-out; }
+        
+        #timer-box { font-size: 1.5rem; font-weight: bold; color: #fef08a; background: rgba(0,0,0,0.5); padding: 5px 15px; border-radius: 20px; margin-top: 10px; display: inline-block; }
+
+        @media(max-width: 600px) { 
+            .student-info { grid-template-columns: 1fr; } 
+            .tf-grid { grid-template-columns: 1fr; }
+            .tf-opts { justify-content: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- TRẠM CHỈ HUY -->
+        <div class="card header-card">
+            <h1>HỒ SƠ TỔNG KẾT</h1>
+            <h2>CHUYÊN ÁN HÓA 10: KIỂM TRA GIỮA KÌ I - ĐỀ 2</h2>
+            
+            <div id="timer-box">⏳ 45:00</div> 
+            
+            <div style="margin-top: 15px; display: flex; justify-content: center; gap: 10px;">
+                <button type="button" id="btnSound" onclick="toggleSound()" style="background: #10b981; color: white; border: none; padding: 8px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: 0.3s;">
+                    🔊 Âm thanh: BẬT
+                </button>
+            </div>
+            
+            <p style="font-style: italic; color: #e2e8f0; font-size: 0.9rem; margin-top: 10px;">* Hệ thống giám sát gian lận đã được kích hoạt. Không thoát màn hình.</p>
+            <div class="student-info">
+                <input type="text" id="studentName" placeholder="Mã định danh thám tử (Họ tên)..." required>
+                <input type="text" id="studentClass" placeholder="Đơn vị (Lớp)..." required>
+            </div>
+        </div>
+
+        <form id="quizForm">
+            <!-- ================= PHẦN I: TRẮC NGHIỆM ================= -->
+            <div id="part1-section" class="card">
+                <h3>📂 TRẠM 1: CÂU TRẮC NGHIỆM NHIỀU LỰA CHỌN</h3>
+                <p style="font-style: italic; color: #6b7280; margin-top: -10px; margin-bottom: 20px;">* Nhiệm vụ: Trả lời 18 câu hỏi. Bạn phải xác thực để đi tiếp.</p>
+
+                <!-- 18 CÂU HỎI TRẮC NGHIỆM HÓA 10 -->
+                <div class="question check-mcq-p1" data-ans="B"><p class="question-text">Câu 1. Trong nguyên tử, hạt mang điện là</p><div class="options" style="display: grid; grid-template-columns: 1fr 1fr;"><label><input type="radio" name="p1_q1" value="A"> A. proton và neutron</label><label><input type="radio" name="p1_q1" value="B"> B. proton và electron</label><label><input type="radio" name="p1_q1" value="C"> C. electron</label><label><input type="radio" name="p1_q1" value="D"> D. electron và neutron</label></div></div>
+                <div class="question check-mcq-p1" data-ans="B"><p class="question-text">Câu 2. Hạt nhân của nguyên tử nào có số hạt neutron là 12?</p><div class="options" style="display: grid; grid-template-columns: 1fr 1fr;"><label><input type="radio" name="p1_q2" value="A"> A. 32/15 P</label><label><input type="radio" name="p1_q2" value="B"> B. 23/11 Na</label><label><input type="radio" name="p1_q2" value="C"> C. 39/19 K</label><label><input type="radio" name="p1_q2" value="D"> D. 54/26 Fe</label></div></div>
+                <div class="question check-mcq-p1" data-ans="A"><p class="question-text">Câu 3. Số hiệu nguyên tử cho biết thông tin nào sau đây?</p><div class="options" style="display: grid; grid-template-columns: 1fr 1fr;"><label><input type="radio" name="p1_q3" value="A"> A. Số proton.</label><label><input type="radio" name="p1_q3" value="B"> B. Số khối.</label><label><input type="radio" name="p1_q3" value="C"> C. Số neutron.</label><label><input type="radio" name="p1_q3" value="D"> D. Nguyên tử khối.</label></div></div>
+                <div class="question check-mcq-p1" data-ans="D"><p class="question-text">Câu 4. Cho các kí hiệu nguyên tử sau: 39/19 X và 40/19 Y. Nhận xét nào sau đây không đúng?</p><div class="options" style="display: grid; grid-template-columns: 1fr 1fr;"><label><input type="radio" name="p1_q4" value="A"> A. X và Y có số khối khác nhau.</label><label><input type="radio" name="p1_q4" value="B"> B. X và Y có cùng số electron.</label><label><input type="radio" name="p1_q4" value="C"> C. X và Y là 2 nguyên tử đồng vị.</label><label><input type="radio" name="p1_q4" value="D"> D. X và Y đều có 19 neutron.</label></div></div>
+                <div class="question check-mcq-p1" data-ans="C"><p class="question-text">Câu 5. Phân lớp 3d có số electron tối đa là</p><div class="options" style="display: grid; grid-template-columns: 1fr 1fr;"><label><input type="radio" name="p1_q5" value="A"> A. 6.</label><label><input type="radio" name="p1_q5" value="B"> B. 18.</label><label><input type="radio" name="p1_q5" value="C"> C. 10.</label><label><input type="radio" name="p1_q5" value="D"> D. 14.</label></div></div>
+                <div class="question check-mcq-p1" data-ans="C"><p class="question-text">Câu 6. Sự phân bố electron vào các lớp và phân lớp căn cứ vào</p><div class="options" style="display: grid; grid-template-columns: 1fr 1fr;"><label><input type="radio" name="p1_q6" value="A"> A. số khối tăng dần.</label><label><input type="radio" name="p1_q6" value="B"> B. điện tích hạt nhân tăng dần.</label><label><input type="radio" name="p1_q6" value="C"> C. mức năng lượng electron.</label><label><input type="radio" name="p1_q6" value="D"> D. nguyên tử khối tăng dần.</label></div></div>
+                <div class="question check-mcq-p1" data-ans="A"><p class="question-text">Câu 7. Sự phân bố electron theo ô orbital nào dưới đây là đúng?</p><div class="options" style="display: grid; grid-template-columns: 1fr 1fr;"><label><input type="radio" name="p1_q7" value="A"> A. [ &uarr; ] [ &uarr; ] [ &uarr; ]</label><label><input type="radio" name="p1_q7" value="B"> B. [ &uarr;&uarr; ] [ &uarr;&uarr; ] [ ]</label><label><input type="radio" name="p1_q7" value="C"> C. [ &uarr;&darr; ] [ &uarr; ] [ ]</label><label><input type="radio" name="p1_q7" value="D"> D. [ &uarr;&uarr; ] [ &uarr; ] [ &uarr; ]</label></div></div>
+                <div class="question check-mcq-p1" data-ans="D"><p class="question-text">Câu 8. Số orbital trong các phân lớp s, p, d lần lượt bằng</p><div class="options" style="display: grid; grid-template-columns: 1fr 1fr;"><label><input type="radio" name="p1_q8" value="A"> A. 2, 6, 10.</label><label><input type="radio" name="p1_q8" value="B"> B. 1, 2, 3.</label><label><input type="radio" name="p1_q8" value="C"> C. 3, 5, 7.</label><label><input type="radio" name="p1_q8" value="D"> D. 1, 3, 5.</label></div></div>
+                <div class="question check-mcq-p1" data-ans="D"><p class="question-text">Câu 9. Cặp nguyên tử nào dưới đây thuộc cùng một nguyên tố hóa học?</p><div class="options" style="display: grid; grid-template-columns: 1fr 1fr;"><label><input type="radio" name="p1_q9" value="A"> A. 14/6 G, 14/7 M</label><label><input type="radio" name="p1_q9" value="B"> B. 16/8 L, 22/11 D</label><label><input type="radio" name="p1_q9" value="C"> C. 14/6 E, 15/7 Q</label><label><input type="radio" name="p1_q9" value="D"> D. 16/8 M, 17/8 L</label></div></div>
+                <div class="question check-mcq-p1" data-ans="D"><p class="question-text">Câu 10. Bảng tuần hoàn hiện nay không áp dụng nguyên tắc sắp xếp nào sau đây?</p><div class="options"><label><input type="radio" name="p1_q10" value="A"> A. Mỗi nguyên tố hóa học được xếp vào một ô trong bảng tuần hoàn.</label><label><input type="radio" name="p1_q10" value="B"> B. Các nguyên tố có cùng số lớp electron trên nguyên tử được xếp thành một hàng.</label><label><input type="radio" name="p1_q10" value="C"> C. Các nguyên tố có cùng số electron hóa trị trong nguyên tử được xếp thành một cột.</label><label><input type="radio" name="p1_q10" value="D"> D. Các nguyên tố được sắp xếp theo chiều tăng dần khối lượng nguyên tử.</label></div></div>
+                <div class="question check-mcq-p1" data-ans="D"><p class="question-text">Câu 11. Ô nguyên tố trong bảng tuần hoàn không cho biết thông tin nào sau đây?</p><div class="options" style="display: grid; grid-template-columns: 1fr 1fr;"><label><input type="radio" name="p1_q11" value="A"> A. Kí hiệu nguyên tố.</label><label><input type="radio" name="p1_q11" value="B"> B. Tên nguyên tố.</label><label><input type="radio" name="p1_q11" value="C"> C. Số hiệu nguyên tử.</label><label><input type="radio" name="p1_q11" value="D"> D. Số khối của hạt nhân.</label></div></div>
+                <div class="question check-mcq-p1" data-ans="D"><p class="question-text">Câu 12. Ngành nào sau đây không liên quan đến hóa học?</p><div class="options" style="display: grid; grid-template-columns: 1fr 1fr;"><label><input type="radio" name="p1_q12" value="A"> A. Mĩ phẩm.</label><label><input type="radio" name="p1_q12" value="B"> B. Năng lượng.</label><label><input type="radio" name="p1_q12" value="C"> C. Dược phẩm.</label><label><input type="radio" name="p1_q12" value="D"> D. Vũ trụ.</label></div></div>
+                <div class="question check-mcq-p1" data-ans="D"><p class="question-text">Câu 13. Nội dung nào dưới đây thuộc đối tượng nghiên cứu của hóa học?</p><div class="options"><label><input type="radio" name="p1_q13" value="A"> A. Sự vận chuyển của máu trong hệ tuần hoàn.</label><label><input type="radio" name="p1_q13" value="B"> B. Sự tự quay của Trái Đất quanh trục riêng.</label><label><input type="radio" name="p1_q13" value="C"> C. Sự ra đời và phát triển của nền văn minh lúa nước.</label><label><input type="radio" name="p1_q13" value="D"> D. Sự phá hủy tầng ozone bởi freon-12.</label></div></div>
+                <div class="question check-mcq-p1" data-ans="B"><p class="question-text">Câu 14. Ở trạng thái cơ bản, cấu hình electron của nguyên tử Na (Z = 11) là</p><div class="options" style="display: grid; grid-template-columns: 1fr 1fr;"><label><input type="radio" name="p1_q14" value="A"> A. 1s² 2s² 2p⁵ 3s².</label><label><input type="radio" name="p1_q14" value="B"> B. 1s² 2s² 2p⁶ 3s¹.</label><label><input type="radio" name="p1_q14" value="C"> C. 1s² 2s² 2p⁶ 3s².</label><label><input type="radio" name="p1_q14" value="D"> D. 1s² 2s² 2p⁴ 3s¹.</label></div></div>
+                <div class="question check-mcq-p1" data-ans="D"><p class="question-text">Câu 15. Các electron của nguyên tử X được phân bố trên 3 lớp, lớp thứ 3 có 6 electron. Số hạt proton trong hạt nhân của nguyên tử X là</p><div class="options" style="display: grid; grid-template-columns: 1fr 1fr;"><label><input type="radio" name="p1_q15" value="A"> A. 6.</label><label><input type="radio" name="p1_q15" value="B"> B. 8.</label><label><input type="radio" name="p1_q15" value="C"> C. 14.</label><label><input type="radio" name="p1_q15" value="D"> D. 16.</label></div></div>
+                <div class="question check-mcq-p1" data-ans="D"><p class="question-text">Câu 16. Nguyên tử của nguyên tố X có electron cuối cùng điền vào phân lớp 3p¹. Nguyên tử Y có electron cuối cùng điền vào phân lớp 3p³. Số hiệu nguyên tử X và Y lần lượt là</p><div class="options" style="display: grid; grid-template-columns: 1fr 1fr;"><label><input type="radio" name="p1_q16" value="A"> A. 12 và 15.</label><label><input type="radio" name="p1_q16" value="B"> B. 12 và 14.</label><label><input type="radio" name="p1_q16" value="C"> C. 13 và 14.</label><label><input type="radio" name="p1_q16" value="D"> D. 13 và 15.</label></div></div>
+                <div class="question check-mcq-p1" data-ans="A"><p class="question-text">Câu 17. Bảng tuần hoàn hiện nay có số cột, số nhóm A và số nhóm B lần lượt là</p><div class="options" style="display: grid; grid-template-columns: 1fr 1fr;"><label><input type="radio" name="p1_q17" value="A"> A. 18, 8, 8.</label><label><input type="radio" name="p1_q17" value="B"> B. 18, 8, 10.</label><label><input type="radio" name="p1_q17" value="C"> C. 18, 10, 8.</label><label><input type="radio" name="p1_q17" value="D"> D. 16, 8, 8.</label></div></div>
+                <div class="question check-mcq-p1" data-ans="C"><p class="question-text">Câu 18. Trong các chất dưới đây, chất nào có tính acid yếu nhất?</p><div class="options" style="display: grid; grid-template-columns: 1fr 1fr;"><label><input type="radio" name="p1_q18" value="A"> A. H₂SO₄.</label><label><input type="radio" name="p1_q18" value="B"> B. HClO₄.</label><label><input type="radio" name="p1_q18" value="C"> C. H₂SiO₃.</label><label><input type="radio" name="p1_q18" value="D"> D. H₃PO₄.</label></div></div>
+
+                <button type="button" id="btn-check-p1" class="btn-checkpoint" onclick="checkPart1()">🛑 XÁC THỰC & CHUYỂN TRẠM 2</button>
+            </div>
+
+            <!-- ================= PHẦN II: ĐÚNG/SAI ================= -->
+            <div id="part2-section" class="section-locked">
+                <div class="card">
+                    <h3>📂 TRẠM 2: CÂU TRẮC NGHIỆM ĐÚNG/SAI</h3>
+                    <p style="font-style: italic; color: #6b7280; margin-top: -10px; margin-bottom: 20px;">* Nhiệm vụ: Phân tích 4 nhận định (16 ý). Bạn phải xác thực để đi tiếp.</p>
+
+                    <div class="question">
+                        <p class="question-text">Câu 1. Cho các thông tin về nguyên tố Mg trong tự nhiên (24Mg: 78,6%; 25Mg: 10,1%; 26Mg: 11,3%):</p>
+                        <div class="tf-grid check-tf-p2" data-ans="T"><span>a) Trong tự nhiên nguyên tố Magnesium có ba đồng vị bền.</span><div class="tf-opts"><label><input type="radio" name="p2_q1a" value="T"> ĐÚNG</label><label><input type="radio" name="p2_q1a" value="F"> SAI</label></div></div>
+                        <div class="tf-grid check-tf-p2" data-ans="F"><span>b) Đồng vị 25Mg phổ biến nhất so với các đồng vị còn lại.</span><div class="tf-opts"><label><input type="radio" name="p2_q1b" value="T"> ĐÚNG</label><label><input type="radio" name="p2_q1b" value="F"> SAI</label></div></div>
+                        <div class="tf-grid check-tf-p2" data-ans="F"><span>c) Ba đồng vị bền trên đều ở cùng 1 ô thứ 24 trong bảng tuần hoàn.</span><div class="tf-opts"><label><input type="radio" name="p2_q1c" value="T"> ĐÚNG</label><label><input type="radio" name="p2_q1c" value="F"> SAI</label></div></div>
+                        <div class="tf-grid check-tf-p2" data-ans="T" style="border:none;"><span>d) Nguyên tử khối trung bình của Mg là 24,327.</span><div class="tf-opts"><label><input type="radio" name="p2_q1d" value="T"> ĐÚNG</label><label><input type="radio" name="p2_q1d" value="F"> SAI</label></div></div>
+                    </div>
+
+                    <div class="question">
+                        <p class="question-text">Câu 2. Xét orbital (a) dạng hình cầu và orbital (b) dạng hình số 8 nổi chứa electron trong nguyên tử Na ở trạng thái cơ bản, mức năng lượng của (a) cao hơn (b):</p>
+                        <div class="tf-grid check-tf-p2" data-ans="F"><span>a) Electron trong các orbital (a) và (b) thuộc cùng lớp electron.</span><div class="tf-opts"><label><input type="radio" name="p2_q2a" value="T"> ĐÚNG</label><label><input type="radio" name="p2_q2a" value="F"> SAI</label></div></div>
+                        <div class="tf-grid check-tf-p2" data-ans="F"><span>b) Số electron trong 1 orbital (b) gấp ba số electron trong orbital (a).</span><div class="tf-opts"><label><input type="radio" name="p2_q2b" value="T"> ĐÚNG</label><label><input type="radio" name="p2_q2b" value="F"> SAI</label></div></div>
+                        <div class="tf-grid check-tf-p2" data-ans="F"><span>c) Electron trên orbital (a) nằm gần hạt nhân hơn electron trên orbital (b).</span><div class="tf-opts"><label><input type="radio" name="p2_q2c" value="T"> ĐÚNG</label><label><input type="radio" name="p2_q2c" value="F"> SAI</label></div></div>
+                        <div class="tf-grid check-tf-p2" data-ans="T" style="border:none;"><span>d) Orbital (a) và (b) khác nhau về định hướng trong không gian.</span><div class="tf-opts"><label><input type="radio" name="p2_q2d" value="T"> ĐÚNG</label><label><input type="radio" name="p2_q2d" value="F"> SAI</label></div></div>
+                    </div>
+
+                    <div class="question">
+                        <p class="question-text">Câu 3. Cho nguyên tử các nguyên tố X, Y, T, R cùng một chu kỳ và thuộc nhóm A. Bán kính nguyên tử giảm dần theo thứ tự Y > R > X > T:</p>
+                        <div class="tf-grid check-tf-p2" data-ans="T"><span>a) Nguyên tử có giá trị độ âm điện lớn nhất là T.</span><div class="tf-opts"><label><input type="radio" name="p2_q3a" value="T"> ĐÚNG</label><label><input type="radio" name="p2_q3a" value="F"> SAI</label></div></div>
+                        <div class="tf-grid check-tf-p2" data-ans="T"><span>b) Nguyên tố có tính kim loại mạnh nhất là Y.</span><div class="tf-opts"><label><input type="radio" name="p2_q3b" value="T"> ĐÚNG</label><label><input type="radio" name="p2_q3b" value="F"> SAI</label></div></div>
+                        <div class="tf-grid check-tf-p2" data-ans="T"><span>c) Nguyên tử của các nguyên tố này đều có cùng số lớp electron.</span><div class="tf-opts"><label><input type="radio" name="p2_q3c" value="T"> ĐÚNG</label><label><input type="radio" name="p2_q3c" value="F"> SAI</label></div></div>
+                        <div class="tf-grid check-tf-p2" data-ans="F" style="border:none;"><span>d) Hydroxide của X có tính lưỡng tính thì Hydroxide của T có tính base.</span><div class="tf-opts"><label><input type="radio" name="p2_q3d" value="T"> ĐÚNG</label><label><input type="radio" name="p2_q3d" value="F"> SAI</label></div></div>
+                    </div>
+
+                    <div class="question">
+                        <p class="question-text">Câu 4. Tìm hiểu nguyên tố Natri (Sodium, 11Na) và Kali (Potassium, 19K) trong bảng tuần hoàn:</p>
+                        <div class="tf-grid check-tf-p2" data-ans="T"><span>a) Theo xu hướng biến đổi tính kim loại, K có tính kim loại mạnh hơn Na.</span><div class="tf-opts"><label><input type="radio" name="p2_q4a" value="T"> ĐÚNG</label><label><input type="radio" name="p2_q4a" value="F"> SAI</label></div></div>
+                        <div class="tf-grid check-tf-p2" data-ans="F"><span>b) Đều thuộc chu kì 3 trong bảng tuần hoàn.</span><div class="tf-opts"><label><input type="radio" name="p2_q4b" value="T"> ĐÚNG</label><label><input type="radio" name="p2_q4b" value="F"> SAI</label></div></div>
+                        <div class="tf-grid check-tf-p2" data-ans="T"><span>c) Tính base của sodium hydroxide yếu hơn tính base của potassium hydroxide.</span><div class="tf-opts"><label><input type="radio" name="p2_q4c" value="T"> ĐÚNG</label><label><input type="radio" name="p2_q4c" value="F"> SAI</label></div></div>
+                        <div class="tf-grid check-tf-p2" data-ans="T" style="border:none;"><span>d) Na và K đều có tính chất hóa học cơ bản giống nhau.</span><div class="tf-opts"><label><input type="radio" name="p2_q4d" value="T"> ĐÚNG</label><label><input type="radio" name="p2_q4d" value="F"> SAI</label></div></div>
+                    </div>
+
+                    <button type="button" id="btn-check-p2" class="btn-checkpoint" onclick="checkPart2()">🛑 XÁC THỰC & CHUYỂN TRẠM 3</button>
+                </div>
+            </div>
+
+            <!-- ================= PHẦN III: TRẢ LỜI NGẮN ================= -->
+            <div id="part3-section" class="section-locked">
+                <div class="card">
+                    <h3>📂 TRẠM 3: CÂU TRẮC NGHIỆM YÊU CẦU TRẢ LỜI NGẮN</h3>
+                    
+                    <div class="question">
+                        <p class="question-text">Câu 1. Nguyên tử của nguyên tố X có tổng số hạt là 34. Tổng số hạt mang điện nhiều hơn tổng số hạt không mang điện là 10 hạt. Xác định số khối của nguyên tử X?</p>
+                        <input type="text" class="check-text final-ans" data-ans="23" placeholder="Nhập một con số...">
+                    </div>
+                    <div class="question">
+                        <p class="question-text">Câu 2. Trong tự nhiên, carbon có hai đồng vị bền là 12C và 13C; oxygen có ba đồng vị bền là 16O, 17O và 18O. Xác định số lượng tối đa loại phân tử CO2 có thể tạo ra từ các đồng vị này.</p>
+                        <input type="text" class="check-text final-ans" data-ans="12" placeholder="Nhập một con số...">
+                    </div>
+                    <div class="question">
+                        <p class="question-text">Câu 3. Nguyên tử cobalt có cấu hình electron ngoài cùng là 3d7 4s2. Xác định số hiệu nguyên tử của cobalt?</p>
+                        <input type="text" class="check-text final-ans" data-ans="27" placeholder="Nhập một con số...">
+                    </div>
+                    <div class="question">
+                        <p class="question-text">Câu 4. Trong tự nhiên đồng có hai đồng vị 63Cu và 65Cu. Nguyên tử khối trung bình của đồng là 63,54. Tính số phần trăm khối lượng của 63Cu trong phân tử Cu2O (Nguyên tử khối của O=16, làm tròn 2 chữ số thập phân).</p>
+                        <input type="text" class="check-text final-ans" data-ans="64,29" placeholder="Nhập đúng định dạng làm tròn (VD: 64,29)...">
+                    </div>
+                    <div class="question">
+                        <p class="question-text">Câu 5. Nguyên tố Y thuộc chu kì 2 trong bảng tuần hoàn. Công thức oxide cao nhất của Y là Y2O5. Khi cho 1 mol Y2O5 tác dụng với dung dịch NaOH dư thì số mol NaOH phản ứng là bao nhiêu?</p>
+                        <input type="text" class="check-text final-ans" data-ans="2" placeholder="Nhập một con số...">
+                    </div>
+                    <div class="question">
+                        <p class="question-text">Câu 6. Có bao nhiêu nguyên tố thuộc chu kì 4 mà nguyên tử có cấu hình electron ở lớp ngoài cùng là 4s2?</p>
+                        <input type="text" class="check-text final-ans" data-ans="9" placeholder="Nhập một con số...">
+                    </div>
+                </div>
+
+                <!-- Bảng điểm -->
+                <div id="score-board">
+                    <div id="score-text"></div>
+                    <div id="error-breakdown" class="error-analysis"></div>
+                </div>
+
+                <button type="button" class="btn-submit" onclick="gradeFinal()">🚀 NỘP BÀI THI</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- AUDIO ENGINE & LOGIC -->
+    <script>
+        window.AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx;
+        let soundEnabled = true;
+
+        function initAudio() { if(!audioCtx) audioCtx = new AudioContext(); if(audioCtx.state === 'suspended') audioCtx.resume(); }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            let btn = document.getElementById('btnSound');
+            if(soundEnabled) { btn.innerHTML = '🔊 Âm thanh: BẬT'; btn.style.background = '#10b981'; initAudio(); sfxClick(); } 
+            else { btn.innerHTML = '🔇 Âm thanh: TẮT'; btn.style.background = '#6b7280'; }
+        }
+
+        function playTone(freq, type, duration, vol=0.1) {
+            if(!soundEnabled) return;
+            initAudio();
+            let osc = audioCtx.createOscillator();
+            let gain = audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + duration);
+        }
+
+        function sfxClick() { playTone(600, 'sine', 0.1, 0.05); }
+        function sfxWrong() { playTone(300, 'sawtooth', 0.3, 0.1); setTimeout(() => playTone(250, 'sawtooth', 0.4, 0.1), 200); }
+        function sfxLevelUp() { [523.25, 659.25, 783.99, 1046.50].forEach((f, i) => { setTimeout(() => playTone(f, 'square', 0.2, 0.05), i * 150); }); }
+        function sfxWin() { [523.25, 523.25, 523.25, 659.25, 783.99, 1046.50].forEach((f, i) => { setTimeout(() => playTone(f, 'triangle', 0.3, 0.1), i * 200); }); }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('input[type="radio"]').forEach(el => el.addEventListener('change', sfxClick));
+            document.querySelectorAll('input[type="text"]').forEach(el => el.addEventListener('input', () => { if(el.value.length === 1) sfxClick(); }));
+            document.querySelectorAll('select').forEach(el => el.addEventListener('change', sfxClick));
+            document.body.addEventListener('click', initAudio, {once: true});
+        });
+    </script>
+
+    <script>
+        function checkPart1() {
+            let name = document.getElementById('studentName').value;
+            if(!name) { customAlert("Vui lòng nhập Mã định danh trước khi làm bài!"); return; }
+
+            let answered = document.querySelectorAll('.check-mcq-p1 input[type="radio"]:checked').length;
+            if(answered < 18) {
+                let confirmNext = customConfirm(`Bạn mới làm ${answered}/18 câu. Bạn có chắc chắn muốn bỏ qua các câu còn lại để sang Trạm 2 không?`);
+                if(!confirmNext) return;
+            }
+
+            sfxLevelUp();
+            document.getElementById('btn-check-p1').style.display = 'none';
+            let part2 = document.getElementById('part2-section');
+            part2.style.display = 'block'; setTimeout(() => { part2.style.opacity = '1'; }, 100);
+            part2.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function checkPart2() {
+            let answered = document.querySelectorAll('.check-tf-p2 input[type="radio"]:checked').length;
+            if(answered < 16) {
+                let confirmNext = customConfirm(`Bạn mới chọn ${answered}/16 ý. Bạn có chắc chắn muốn đi tiếp sang Trạm 3 không?`);
+                if(!confirmNext) return;
+            }
+
+            sfxLevelUp();
+            document.getElementById('btn-check-p2').style.display = 'none';
+            let part3 = document.getElementById('part3-section');
+            part3.style.display = 'block'; setTimeout(() => { part3.style.opacity = '1'; }, 100);
+            part3.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function gradeFinal() {
+            quizStarted = false; 
+            if(typeof timerInterval !== 'undefined') clearInterval(timerInterval); 
+
+            let p1Questions = document.querySelectorAll('.check-mcq-p1');
+            let correctP1 = 0;
+            p1Questions.forEach(el => {
+                let ans = el.getAttribute('data-ans');
+                let selected = el.querySelector('input[type="radio"]:checked');
+                el.querySelectorAll('label').forEach(lbl => { lbl.style.borderColor = "#e5e7eb"; lbl.style.backgroundColor = "#fff"; });
+                
+                if (selected) {
+                    if (selected.value === ans) {
+                        selected.parentElement.style.borderColor = "var(--success)";
+                        selected.parentElement.style.backgroundColor = "#d1fae5";
+                        correctP1++;
+                    } else {
+                        selected.parentElement.style.borderColor = "var(--danger)";
+                        selected.parentElement.style.backgroundColor = "#fee2e2";
+                        el.querySelector(`input[value="${ans}"]`).parentElement.style.borderColor = "var(--success)";
+                    }
+                } else {
+                    el.querySelector(`input[value="${ans}"]`).parentElement.style.borderColor = "var(--success)";
+                }
+            });
+
+            let p2Questions = document.querySelectorAll('.check-tf-p2');
+            let correctP2 = 0; 
+            p2Questions.forEach(el => {
+                let ans = el.getAttribute('data-ans');
+                let selected = el.querySelector('input[type="radio"]:checked');
+                el.querySelectorAll('label').forEach(lbl => { lbl.style.backgroundColor = "#fff"; });
+                if (selected) {
+                    if (selected.value === ans) { selected.parentElement.style.backgroundColor = "#d1fae5"; correctP2++; } 
+                    else { selected.parentElement.style.backgroundColor = "#fee2e2"; }
+                }
+            });
+
+            let correctShort = 0;
+            document.querySelectorAll('.final-ans').forEach(el => {
+                let userVal = el.value.trim().toLowerCase();
+                let ansArr = el.getAttribute('data-ans').split(',');
+                if (ansArr.includes(userVal) && userVal !== "") {
+                    el.style.borderColor = "var(--success)"; el.style.backgroundColor = "#d1fae5"; correctShort++;
+                } else {
+                    el.style.borderColor = "var(--danger)"; el.style.backgroundColor = "#fee2e2";
+                    let fb = document.createElement("span");
+                    fb.className = "feedback err";
+                    fb.innerText = "✗ Đáp án đúng: " + ansArr[0];
+                    if(!el.nextElementSibling) el.parentNode.insertBefore(fb, el.nextSibling);
+                }
+            });
+
+            let totalItems = 18 + 16 + 6; 
+            let totalCorrect = correctP1 + correctP2 + correctShort;
+            let finalScore = (totalCorrect / 40) * 10;
+
+            let board = document.getElementById('score-board');
+            board.style.display = 'block';
+            
+            sfxWin(); 
+            let scoreTextHTML = `ĐIỂM TỔNG KẾT: ${finalScore.toFixed(2)} / 10<br><span style="font-size:1.1rem; color:#4b5563;">(Làm đúng ${totalCorrect}/40 manh mối)</span>`;
+            document.getElementById('score-text').innerHTML = scoreTextHTML;
+
+            let breakdownHTML = `<h4>📊 Báo cáo AI:</h4><ul>
+                <li><b>Trạm 1 (Trắc nghiệm nhiều lựa chọn):</b> Đúng ${correctP1}/18 câu</li>
+                <li><b>Trạm 2 (Phân tích Đúng/Sai):</b> Đúng ${correctP2}/16 ý</li>
+                <li><b>Trạm 3 (Trả lời ngắn):</b> Đúng ${correctShort}/6 câu</li>
+            </ul>`;
+            document.getElementById('error-breakdown').innerHTML = breakdownHTML;
+
+            let webAppUrl = "https://script.google.com/macros/s/AKfycbylueJZEzmVeXc9bND7sCk9-IVx7C0r4orQZN19a7_BmQZr9SETYqBSkkcDpveZjEVT9g/exec"; 
+            let payload = {
+                hoTen: document.getElementById('studentName').value,
+                lop: document.getElementById('studentClass').value || "Không ghi",
+                diem: finalScore.toFixed(2),
+                cauDung: totalCorrect,
+                cauSai: 40 - totalCorrect,
+                cauChuaLam: 0,
+                tongSoCau: 40,
+                loi_hs1: 0, 
+                loi_hs2: 0,
+                loi_hs3: 0,
+                loi_hs4_mcq: 18 - correctP1,
+                loi_hs4_tf: 16 - correctP2,
+                loi_hs4_short: 6 - correctShort
+            };
+
+            let submitBtn = document.querySelector('.btn-submit');
+            submitBtn.innerText = "⏳ ĐANG LƯU DỮ LIỆU LÊN HỆ THỐNG...";
+            submitBtn.disabled = true;
+
+            if (webAppUrl === "YOUR_NEW_WEB_APP_URL_HERE") {
+                 submitBtn.innerText = "⚠️ CÔ CHƯA DÁN LINK GOOGLE SHEETS VÀO CODE";
+                 submitBtn.disabled = false;
+            } else {
+                fetch(webAppUrl, { method: 'POST', body: JSON.stringify(payload) })
+                .then(r => r.json()).then(data => { submitBtn.innerText = "✅ ĐÃ NỘP BÀI & LƯU ĐIỂM THÀNH CÔNG"; })
+                .catch(e => { submitBtn.innerText = "⚠️ CÓ LỖI MẠNG (CHƯA LƯU ĐƯỢC VÀO SHEETS)"; submitBtn.disabled = false; });
+            }
+        }
+    </script>
+
+    <script>
+        let quizStarted = false;
+        let isCheating = false;
+        let isAlerting = false; 
+
+        function customAlert(msg) {
+            isAlerting = true;
+            window.alert(msg);
+            setTimeout(() => { isAlerting = false; }, 1000); 
+        }
+
+        function customConfirm(msg) {
+            isAlerting = true;
+            let result = window.confirm(msg);
+            setTimeout(() => { isAlerting = false; }, 1000); 
+            return result;
+        }
+        
+        let timeLeft = 45 * 60; 
+        let timerInterval;
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    if(typeof timerInterval !== 'undefined') clearInterval(timerInterval);
+                    customAlert("⏰ HẾT GIỜ LÀM BÀI! Hệ thống sẽ tự động nộp kết quả hiện tại.");
+                    gradeFinal();
+                    return;
+                }
+                timeLeft--;
+                let m = Math.floor(timeLeft / 60);
+                let s = timeLeft % 60;
+                document.getElementById('timer-box').innerText = `⏳ ${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
+                if (timeLeft < 300) { document.getElementById('timer-box').style.color = "#ef4444"; }
+            }, 1000);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const startQuiz = () => { if(!quizStarted) { quizStarted = true; startTimer(); } };
+            document.body.addEventListener('click', startQuiz, {once: true});
+            document.body.addEventListener('touchstart', startQuiz, {once: true, passive: true});
+            document.body.addEventListener('input', startQuiz, {once: true});
+            document.body.addEventListener('keydown', startQuiz, {once: true});
+        });
+
+        function handleCheat() {
+            if (!quizStarted || isCheating || isAlerting) return; 
+            let nameInput = document.getElementById('studentName');
+            if (!nameInput.value.trim()) nameInput.value = "Kẻ ẩn danh";
+            
+            isCheating = true;
+            if(typeof sfxWrong === 'function') sfxWrong();
+            
+            customAlert("🚨 CẢNH BÁO VI PHẠM QUY CHẾ THI! 🚨\n\nHệ thống phát hiện bạn đã rời khỏi bài thi, chia đôi màn hình hoặc mở ứng dụng khác để tra cứu.\n\nBài làm của bạn đã bị KHÓA LẬP TỨC và hệ thống đang tự động nộp kết quả 0 điểm về cho Giáo viên!");
+            
+            nameInput.value = "[GIAN LẬN] " + nameInput.value;
+            document.body.style.pointerEvents = "none";
+            document.getElementById('quizForm').style.filter = "grayscale(100%) blur(3px)";
+            document.getElementById('quizForm').style.opacity = "0.7";
+            
+            gradeFinal();
+        }
+
+        document.addEventListener("visibilitychange", () => { if (document.visibilityState === 'hidden') handleCheat(); });
+        window.addEventListener("blur", () => { handleCheat(); });
+    </script>
+</body>
+</html>
